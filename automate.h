@@ -33,3 +33,4 @@ AFN mot_vide();
 AFN reunion(AFN afn1,AFN afn2);
 AFN one_char(char word);
 AFN Kleene(AFN A);
+AFN concat(AFN A,AFN B);
