@@ -365,10 +365,67 @@ AFN mot_vide()
 	return A;
 }
 
+int f_transi(int etat,char c, AFD D)
+{
+	int etat_f = -1;
+	int i =0;
+	
+	for(i=0;i<D.taille[3];i++)
+	{
+	  if((D.tab_transiD[i].etat_in == etat)&&(D.tab_transiD[i].cons == c))
+	  {
+		  etat_f = D.tab_transiD[i].etat_fin;
+	  }	
+	}
+	
+	return etat_f;
+}
+
+AFD create_AFD()
+{
+	//int i =0;
+	AFD A;
+	A.taille[0]=3;
+	A.taille[1]=2;
+	A.taille[2]=1;
+	A.taille[3]=2;
+	A.QD=calloc(3,sizeof(int));//permet d'initialiser à 0 les cases du tableau
+	A.QD[0]=0;
+	A.QD[1]=1;
+	A.QD[2]=2;
+	A.PD=calloc(2,sizeof(char));
+	A.PD[0] = 'a';
+	A.PD[1] = 'b';
+	A.sD=A.QD[0];
+	A.FD=calloc(1,sizeof(int));
+	A.FD[0]=A.QD[1];
+	A.tab_transiD = calloc(A.taille[3],sizeof(transition));
+	A.tab_transiD[0].etat_in = A.QD[0];
+	A.tab_transiD[0].cons = A.PD[0];
+	A.tab_transiD[0].etat_fin = A.QD[1];
+	A.tab_transiD[1].etat_in = A.QD[0];
+	A.tab_transiD[1].cons = A.PD[1];
+	A.tab_transiD[1].etat_fin=A.QD[2];
+    int (*pointeur_f_transi)(int ,char, AFD );
+    
+    pointeur_f_transi = f_transi;
+    
+       
+	return A;
+
+}
 
 
 int main(int argc,char** argv)
 {   
+	
+	 
+	 AFD D = create_AFD();
+	 AFD G = create_AFD();
+	 D.pointeur_f_transi = f_transi;
+	 int essai = (*D.pointeur_f_transi)(0,'a',G);
+    
+    printf("\n  essai = %d", essai); 
 	
 	AFN MOV = mot_vide();
 	AFN ENSV = empty_langage();
@@ -384,7 +441,7 @@ int main(int argc,char** argv)
 	//concat(ENSV,UNCHAR);
 	AFN U = concat(UNCHAR,MOV);
 	
-	printf(" \n Affichage de l'automate Qui concatène ENSV et MOV ");
+	printf(" \n Affichage de l'automate Qui concatène UNCHAR et MOV ");
 	printf("****************************************************\n");
 	aff_auto(U);
 	
