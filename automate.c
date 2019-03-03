@@ -274,10 +274,9 @@ AFN Kleene(AFN A)
 printf("le check est %d \n",check);
 	if(check!=0)
 	{
-		printf("l'etat initial est deja accepteur \n");
 
 		Kleene_A.taille[2]=A.taille[2];//car l'etat initial n'est pas   accepteur
-		
+
 		for(i=0;i<Kleene_A.taille[2];i++)
 			{				
 				Kleene_A.F[i]=A.F[i];
@@ -285,7 +284,6 @@ printf("le check est %d \n",check);
 	}
 	else
 	{
-			printf("l'etat initial devient accepteurr \n");
 
 		Kleene_A.taille[2]=A.taille[2]+1;//car l'etat initial devient accepteur
 		Kleene_A.F[0]=A.F[0];
@@ -295,11 +293,8 @@ printf("le check est %d \n",check);
 		}
 	}
 	Kleene_A.taille[3]=A.taille[3];
-	Kleene_A.taille[3]=A.taille[3];
-	
-	
-	
-	
+
+
 	//remplissage du tab des etats 
 	Kleene_A.Q=calloc(A.taille[0],sizeof(int));
 	for(i=0;i<Kleene_A.taille[0];i++)
@@ -308,95 +303,91 @@ printf("le check est %d \n",check);
 	}
 	//etat initial
 	Kleene_A.s=A.s;
-	
-	
+
+
 	//LES TRANSITIONS
-	printf("le nobre d'etat accepteur est %d \n",Kleene_A.taille[2]);
-	int trans_ajout=0;
-	for(j=0;j<A.taille[3];j++)
+	if(check==0)
 	{
-		for(k=0;k<A.taille[3];k++)
-		{
-			if((A.tab_transi[j].etat_in==A.s) && (A.tab_transi[j].etat_fin==A.F[k]))
-			{
-				trans_ajout+=1;
-			}
-		}
-	}
-	trans_ajout*=A.taille[2];
+		printf("le nobre d'etat accepteur est %d \n",Kleene_A.taille[2]);
+		int trans_ajout=0;
+		Kleene_A.tab_transi=malloc(A.taille[3]*sizeof(transition));
 
-	printf("on ajoute %d transitions et le nobre de depart est %d  \n",trans_ajout,A.taille[2]);
-	Kleene_A.taille[3]+=trans_ajout;
-	Kleene_A.tab_transi=calloc((Kleene_A.taille[3]+trans_ajout),sizeof(transition));
-	for(i=0;i<A.taille[3];i++)
-	{
-		Kleene_A.tab_transi[i]=A.tab_transi[i];
-	}
-	int ind=A.taille[3];
-	
-		for(i=0;i<A.taille[3];i++)//gestion des trasition qui reboucle sur elle meme
-		{
-			for(k=0;k<A.taille[3];k++)
-				{
-					if((A.tab_transi[i].etat_in==A.s) && (A.tab_transi[i].etat_fin==A.F[k]))
-						{
-							Kleene_A.tab_transi[ind].etat_in=A.F[k];
-							Kleene_A.tab_transi[ind].etat_fin=A.tab_transi[i].etat_fin;
-							Kleene_A.tab_transi[ind].cons=A.tab_transi[i].cons;
-							ind+=1;
-						}
-				}
-		}
-		printf("l'etat initail n'est pas accepteur  est %d  \n",ind);
-		int cpt=0;//permet de compter le nombre de transition qui partent de l'état initial
-		for(i=0;i<A.taille[3];i++)
-		{
-			for(k=0;k<A.taille[3];k++)
-				{
-					if((A.tab_transi[i].etat_in==A.s) && (A.tab_transi[i].etat_fin==A.F[k]))
-						{
-							cpt+=1;
-						}
-				}
-		}
+		printf("on ajoute %d transitions et le nobre de depart est %d  \n",trans_ajout,A.taille[2]);
+		
+			int cpt=0;//permet de compter le nombre de transition qui partent de l'état initial
+
+			for(i=0;i<A.taille[3];i++)//gestion des trasition qui reboucle sur elle meme
+			{
+				
+						if(A.tab_transi[i].etat_in==A.s)
+						cpt+=1;
+					
+			}
+			Kleene_A.tab_transi=calloc((Kleene_A.taille[3]+A.taille[2]*cpt),sizeof(transition));
+			Kleene_A.taille[3]=A.taille[3]+A.taille[2]*cpt;
+
+
 			printf("aff val de cpt  est %d  \n",cpt);
-
-		transition *new_tab=calloc(cpt,sizeof(transition));
-
-		for(i=0;i<A.taille[3];i++)
-		{
-			for(k=0;k<A.taille[3];k++)
+			for(i=0;i<A.taille[3];i++)
 				{
-					if((A.tab_transi[i].etat_in==A.s) && (A.tab_transi[i].etat_fin==A.F[k]))
-						{
-							new_tab[i].etat_in=A.tab_transi[i].etat_in;
-							new_tab[i].cons=A.tab_transi[i].cons;
-							new_tab[i].etat_fin=A.tab_transi[i].etat_fin;
-							printf("contenu est new est:pour i =%d %d %c %d  \n",i,new_tab[i].etat_in,new_tab[i].cons,new_tab[i].etat_fin);
-
-						}
+					Kleene_A.tab_transi[i]=A.tab_transi[i];
 				}
-		}
-	int u=0;
-
-		for(i=0;i<A.taille[3];i++)
-		{
-				printf(" a.f[i]= %d et new_tab  %d est  et la val de ind = %d\n",A.F[i],new_tab[i].etat_fin,ind);
-			for(u=0;u<cpt;u++)
-			{
-					if(A.F[i]!=new_tab[u].etat_fin)
+				int var=A.taille[3];
+			for(j=0;j<A.taille[2];j++)
+				{
+					for(i=0;i<cpt;i++)
 					{
-															printf("on entre deja la  %d le cons est %c \n",A.F[i],new_tab[i].cons);
+						
+							Kleene_A.tab_transi[var].etat_in=A.F[j];
+							Kleene_A.tab_transi[var].cons=A.tab_transi[i].cons;
+							Kleene_A.tab_transi[var].etat_fin=A.tab_transi[i].etat_fin;
+						
+							var+=1;
+						
+					}
+				}
+	}
+	else
+	{
+		printf("l'etat initttt est deja accepteur \n");
+		int trans_ajout=0;
+		Kleene_A.tab_transi=malloc(A.taille[3]*sizeof(transition));
 
-									Kleene_A.tab_transi[ind].etat_in=A.F[u];
-									Kleene_A.tab_transi[ind].etat_fin=new_tab[i].etat_fin;
-									Kleene_A.tab_transi[ind].cons=new_tab[i].cons;
-									ind+=1;
-						}
+		printf("on ajoute %d transitions et le nobre de depart est %d  \n",trans_ajout,A.taille[2]);
+		
+			int cpt=0;//permet de compter le nombre de transition qui partent de l'état initial
+
+			for(i=0;i<A.taille[3];i++)//gestion des trasition qui reboucle sur elle meme
+			{
+				
+						if(A.tab_transi[i].etat_in==A.s)
+						cpt+=1;
+					
 			}
-		}
+			Kleene_A.tab_transi=calloc((Kleene_A.taille[3]+A.taille[2]*cpt),sizeof(transition));
+			Kleene_A.taille[3]=A.taille[3]+(A.taille[2]-1)*cpt;
 
 
+			printf("aff val de cpt  est %d  \n",cpt);
+			for(i=0;i<A.taille[3];i++)
+				{
+					Kleene_A.tab_transi[i]=A.tab_transi[i];
+				}
+				int var=A.taille[3];
+			for(j=1;j<A.taille[2];j++)
+				{
+					for(i=0;i<cpt;i++)
+					{
+						
+							Kleene_A.tab_transi[var].etat_in=A.F[j];
+							Kleene_A.tab_transi[var].cons=A.tab_transi[i].cons;
+							Kleene_A.tab_transi[var].etat_fin=A.tab_transi[i].etat_fin;
+						
+							var+=1;
+						
+					}
+				}
+	}
 	return Kleene_A;
 }
 
@@ -420,7 +411,7 @@ AFN determinisation(AFN A)
 	//int tab_new[1][2];
 	
 	
-	int * tb_new=calloc(2*A.taille[0],sizeof(int));
+	/*int * tb_new=calloc(2*A.taille[0],sizeof(int));
 	for(i=0;i<Det.tab_transi;i++)
 	{
 		for(I=0;I<Det.taille[3];I++)
@@ -431,7 +422,7 @@ AFN determinisation(AFN A)
 			}
 		}
 		tab_new
-	}
+	}*/
 	Det.tab_transi=A.tab_transi;
 	//gestion des etats
 	Det.Q=A.Q;
@@ -452,7 +443,7 @@ int main(int argc,char** argv)
 	AFN afn1,afn2;
 	afn1.taille[0]=4;
 	afn1.taille[1]=2;
-	afn1.taille[2]=3;
+	afn1.taille[2]=2;
 	afn1.taille[3]=3;
 	afn1.Q=calloc(2,sizeof(int));
 	afn1.Q[0]=0;
@@ -461,9 +452,13 @@ int main(int argc,char** argv)
 	afn1.Q[3]=3;
 	afn1.s=afn1.Q[0];
 	afn1.F=calloc(afn1.taille[2],sizeof(int));
-	afn1.F[0]=0;
-	afn1.F[1]=2;
-	afn1.F[2]=3;
+	//~ afn1.F[0]=0;
+	//~ afn1.F[1]=1;
+	//~ afn1.F[2]=2;
+	//~ afn1.F[3]=3;
+	afn1.F[0]=1;
+	afn1.F[1]=3;
+	//afn1.F[2]=3;
 	
 	
 	afn1.tab_transi=calloc(afn1.taille[3],sizeof(transition));
@@ -471,11 +466,11 @@ int main(int argc,char** argv)
 	afn1.tab_transi[0].cons=a;
 	afn1.tab_transi[0].etat_fin=1;
 	
-	afn1.tab_transi[1].etat_in=1;
+	afn1.tab_transi[1].etat_in=0;
 	afn1.tab_transi[1].cons=b;
 	afn1.tab_transi[1].etat_fin=2;
 	
-	afn1.tab_transi[2].etat_in=0;
+	afn1.tab_transi[2].etat_in=2;
 	afn1.tab_transi[2].cons='c';
 	afn1.tab_transi[2].etat_fin=3;
 	
@@ -512,9 +507,9 @@ int main(int argc,char** argv)
 	//aff_auto(R);
 	//aff_auto(afn1);
 	//aff_auto(afn2);
-	//AFN k=Kleene(afn1);
-	//aff_auto(k);
-	AFN d=determinisation(afn1);
-	aff_auto(d);
+	AFN k=Kleene(afn1);
+	aff_auto(k);
+	//AFN d=determinisation(afn1);
+	//aff_auto(d);
 	return 0;
 }
