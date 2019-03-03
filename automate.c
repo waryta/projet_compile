@@ -400,6 +400,44 @@ printf("le check est %d \n",check);
 	return Kleene_A;
 }
 
+AFN determinisation(AFN A)
+{
+	printf("determinisation \n");
+	AFN Det;
+	Det.taille[0]=A.taille[0];
+	Det.taille[1]=A.taille[1];
+	Det.taille[2]=A.taille[2];
+	Det.taille[3]=A.taille[3];
+	//on initialise pour faire des realloc en cas de besoin
+	Det.Q=calloc(Det.taille[0],sizeof(int));
+	Det.P=A.P;
+	Det.F=calloc(Det.taille[2],sizeof(int));
+	Det.tab_transi=calloc(Det.taille[3],sizeof(transition));
+	//gestion de l'etat initial
+	Det.s=A.s;
+	//gestion des transition
+	int i=0,id_act=0,I=0,nb_t=0,p=0;
+	//int tab_new[1][2];
+	
+	
+	int * tb_new=calloc(2*A.taille[0],sizeof(int));
+	for(i=0;i<Det.tab_transi;i++)
+	{
+		for(I=0;I<Det.taille[3];I++)
+		{
+			if((A.tab_transi.etat_in==A.Q[i]) && (A.tab_transi[I].cons=='A'))
+			{
+				nb_t+=1;
+			}
+		}
+		tab_new
+	}
+	Det.tab_transi=A.tab_transi;
+	//gestion des etats
+	Det.Q=A.Q;
+	Det.F=A.F;
+	return Det;
+}
 
 int main(int argc,char** argv)
 {
@@ -474,7 +512,9 @@ int main(int argc,char** argv)
 	//aff_auto(R);
 	//aff_auto(afn1);
 	//aff_auto(afn2);
-	AFN k=Kleene(afn1);
-	aff_auto(k);
+	//AFN k=Kleene(afn1);
+	//aff_auto(k);
+	AFN d=determinisation(afn1);
+	aff_auto(d);
 	return 0;
 }
