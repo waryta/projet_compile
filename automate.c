@@ -441,23 +441,21 @@ int main(int argc,char** argv)
 	AFN O = one_char(a);
 	//aff_auto(O);
 	AFN afn1,afn2;
-	afn1.taille[0]=4;
+	afn1.taille[0]=3;
 	afn1.taille[1]=2;
-	afn1.taille[2]=2;
-	afn1.taille[3]=3;
+	afn1.taille[2]=1;
+	afn1.taille[3]=2;
 	afn1.Q=calloc(2,sizeof(int));
 	afn1.Q[0]=0;
 	afn1.Q[1]=1;
 	afn1.Q[2]=2;
-	afn1.Q[3]=3;
 	afn1.s=afn1.Q[0];
 	afn1.F=calloc(afn1.taille[2],sizeof(int));
 	//~ afn1.F[0]=0;
 	//~ afn1.F[1]=1;
 	//~ afn1.F[2]=2;
 	//~ afn1.F[3]=3;
-	afn1.F[0]=1;
-	afn1.F[1]=3;
+	afn1.F[0]=2;
 	//afn1.F[2]=3;
 	
 	
@@ -466,13 +464,11 @@ int main(int argc,char** argv)
 	afn1.tab_transi[0].cons=a;
 	afn1.tab_transi[0].etat_fin=1;
 	
-	afn1.tab_transi[1].etat_in=0;
+	afn1.tab_transi[1].etat_in=1;
 	afn1.tab_transi[1].cons=b;
 	afn1.tab_transi[1].etat_fin=2;
 	
-	afn1.tab_transi[2].etat_in=2;
-	afn1.tab_transi[2].cons='c';
-	afn1.tab_transi[2].etat_fin=3;
+	
 	
 	
 	
