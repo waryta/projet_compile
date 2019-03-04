@@ -808,107 +808,10 @@ int main(int argc,char** argv)
 	char a='a';
 	char b='b';
 	AFN O = one_char(a);
-	//aff_auto(O);
-	AFN afn1,afn2;
-	afn1.taille[0]=3;
-	afn1.taille[1]=2;
-	afn1.taille[2]=1;
-	afn1.taille[3]=2;
-	afn1.Q=calloc(2,sizeof(int));
-	afn1.Q[0]=0;
-	afn1.Q[1]=1;
-	afn1.Q[2]=2;
-	afn1.s=afn1.Q[0];
-	afn1.F=calloc(afn1.taille[2],sizeof(int));
-	//~ afn1.F[0]=0;
-	//~ afn1.F[1]=1;
-	//~ afn1.F[2]=2;
-	//~ afn1.F[3]=3;
-	afn1.F[0]=2;
-	//afn1.F[2]=3;
-	
-	
-	afn1.tab_transi=calloc(afn1.taille[3],sizeof(transition));
-	afn1.tab_transi[0].etat_in=0;
-	afn1.tab_transi[0].cons=a;
-	afn1.tab_transi[0].etat_fin=1;
-	
-	afn1.tab_transi[1].etat_in=1;
-	afn1.tab_transi[1].cons=b;
-	afn1.tab_transi[1].etat_fin=2;
 	
 	
 	
 	
-	
-	afn2.taille[0]=6;
-	afn2.taille[1]=2;
-	afn2.taille[2]=3;
-	afn2.taille[3]=3;
-	afn2.Q=calloc(2,sizeof(int));
-	afn2.Q[0]=2;
-	afn2.Q[1]=5;
-	afn2.Q[2]=8;
-	afn2.Q[3]=9;
-	afn2.s=9;
-	afn2.F=calloc(1,sizeof(int));
-	afn2.F[0]=2;
-	afn2.F[1]=5;
-	afn2.F[2]=9;
-	afn2.tab_transi=calloc(afn2.taille[3],sizeof(transition));
-	
-	afn2.tab_transi[0].etat_in=2;
-	afn2.tab_transi[0].cons=b;
-	afn2.tab_transi[0].etat_fin=5;
-	afn2.tab_transi[1].etat_in=2;
-	afn2.tab_transi[1].cons='A';
-	afn2.tab_transi[1].etat_fin=8;
-	afn2.tab_transi[2].etat_in=5;
-	afn2.tab_transi[2].cons=a;
-	afn2.tab_transi[2].etat_fin=9;
-	
-	
-	//AFN R=reunion(afn1,afn2);
-	//aff_auto(R);
-	//aff_auto(afn1);
-	//aff_auto(afn2);
-	AFN k=Kleene(afn1);
-	aff_auto(k);
-	//AFN d=determinisation(afn1);
-	//aff_auto(d);
-	
-	
-	
-	 AFD G = create_AFD();
-	 char *mot ="aabaa";
-	 int res = in_AFD( G,mot,strlen(mot));
-	 printf(" \n res = %d \n " , res);
-	
-	 
-	 
-	 AFD D = create_AFD();	 
-	 D.pointeur_f_transi = f_transi;
-	 int essai = (*D.pointeur_f_transi)(0,'a',D);
-    
-    printf("\n  essai = %d", essai); 
-	
-	AFN MOV = mot_vide();
-	AFN ENSV = empty_langage();
-	AFN UNCHAR = one_char('c');
-	//printf("Affichage de l'automate  ENSV reconnaisant le langage vide");
-	//printf("****************************************************\n");
-	aff_auto(MOV);
-	
-	//printf("Affichage de l'automate  UNCHAR reconnaisant un caractère");
-	//printf("****************************************************\n");
-	//aff_auto(UNCHAR);
-	
-	//concat(ENSV,UNCHAR);
-	AFN U = concat(UNCHAR,MOV);
-	
-	printf(" \n Affichage de l'automate Qui concatène UNCHAR et MOV ");
-	printf("****************************************************\n");
-	aff_auto(U);
 	
 	return 0;
 }
