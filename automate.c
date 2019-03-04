@@ -899,7 +899,7 @@ int main(int argc,char** argv)
 	//printf("****************************************************\n");
 	aff_auto(MOV);
 	
-	//printf("Affichage de l'automate  UNCHAR reconnaisant un caractere");
+	//printf("Affichage de l'automate  UNCHAR reconnaisant un caractère");
 	//printf("****************************************************\n");
 	//aff_auto(UNCHAR);
 	
@@ -912,3 +912,4 @@ int main(int argc,char** argv)
 	
 	return 0;
 }
+
