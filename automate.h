@@ -54,3 +54,4 @@ AFN concat(AFN A,AFN B);
 AFN mot_vide();
 int f_transi(int etat,char c, AFD D);
 AFD create_AFD();
+int in_AFD(AFD D, char * word, int t);

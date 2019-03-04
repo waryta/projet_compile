@@ -254,6 +254,8 @@ AFN one_char(char word)
 	
 }
 
+
+
 AFN Kleene(AFN A)
 {
 	AFN Kleene_A;
@@ -430,6 +432,115 @@ AFN determinisation(AFN A)
 	return Det;
 }
 
+
+int f_transi(int etat,char c, AFD D)
+{
+	int etat_f = -1;
+	int i =0;
+	
+	for(i=0;i<D.taille[3];i++)
+	{
+	  if((D.tab_transiD[i].etat_in == etat)&&(D.tab_transiD[i].cons == c))
+	  {
+		  etat_f = D.tab_transiD[i].etat_fin;
+		  printf("\n en partant de %d en lisant %c on arrive à %d (%d,%c,%d) ",etat,c,etat_f,etat,c,etat_f);
+	  }	
+	}
+	
+	return etat_f;
+}
+
+AFD create_AFD()
+{
+	//int i =0;
+	AFD A;
+	A.taille[0]=4;
+	A.taille[1]=3;
+	A.taille[2]=2;
+	A.taille[3]=7;
+	A.QD=calloc(A.taille[0],sizeof(int));//permet d'initialiser à 0 les cases du tableau
+	A.QD[0]=0;
+	A.QD[1]=1;
+	A.QD[2]=2;
+	A.QD[3]=3;
+	A.PD=calloc(A.taille[1],sizeof(char));
+	A.PD[0] = 'a';
+	A.PD[1] = 'b';
+	A.PD[2] = 'c';
+	A.sD=A.QD[0];
+	A.FD=calloc(A.taille[2],sizeof(int));
+	A.FD[0]=A.QD[2];
+	A.FD[1]=A.QD[3];
+	A.tab_transiD = calloc(A.taille[3],sizeof(transition));
+	
+	A.tab_transiD[0].etat_in = A.QD[0];
+	A.tab_transiD[0].cons = A.PD[0];
+	A.tab_transiD[0].etat_fin = A.QD[1];
+	
+	A.tab_transiD[1].etat_in = A.QD[0];
+	A.tab_transiD[1].cons = A.PD[1];
+	A.tab_transiD[1].etat_fin=A.QD[2];
+	
+	A.tab_transiD[2].etat_in = A.QD[1];
+	A.tab_transiD[2].cons = A.PD[0];
+	A.tab_transiD[2].etat_fin=A.QD[2];
+	
+	A.tab_transiD[3].etat_in = A.QD[2];
+	A.tab_transiD[3].cons = A.PD[0];
+	A.tab_transiD[3].etat_fin=A.QD[1];
+	
+	A.tab_transiD[4].etat_in = A.QD[2];
+	A.tab_transiD[4].cons = A.PD[2];
+	A.tab_transiD[4].etat_fin=A.QD[3];
+	
+	A.tab_transiD[5].etat_in = A.QD[3];
+	A.tab_transiD[5].cons = A.PD[0];
+	A.tab_transiD[5].etat_fin=A.QD[1];
+	
+	A.tab_transiD[6].etat_in = A.QD[2];
+	A.tab_transiD[6].cons = A.PD[1];
+	A.tab_transiD[6].etat_fin=A.QD[0];
+	
+    int (*pointeur_f_transi)(int ,char, AFD );
+    
+    pointeur_f_transi = f_transi;
+    
+       
+	return A;
+
+}
+
+int in_AFD(AFD D, char  * word,int t)
+{
+	int s = D.sD ;
+	int i =0;
+	int etat =0;
+	D.pointeur_f_transi = f_transi;
+	/*int essai = (*D.pointeur_f_transi)(0,'a',G);
+	AFD G = D ;*/
+	
+	for(i=0;i<t;i++)
+	{	
+	  etat = (*D.pointeur_f_transi)(s,word[i],D);
+	  s = etat ;	
+	}
+	for(i=0;i<D.taille[2];i++)
+	{
+		if(s==D.FD[i])
+		{
+			printf("mot accepté \n");
+		}
+		else
+		{
+			printf("oulaaaaaaa mot refusé car l'etat %d n'est pas accepteur \n",s);
+		}
+	}
+	return s;
+	
+}
+
+
+
 int main(int argc,char** argv)
 {
 	AFN E = empty_langage();
@@ -507,5 +618,39 @@ int main(int argc,char** argv)
 	aff_auto(k);
 	//AFN d=determinisation(afn1);
 	//aff_auto(d);
+	
+	
+	
+	 AFD G = create_AFD();
+	 char *mot ="aabaa";
+	 int res = in_AFD( G,mot,strlen(mot));
+	 printf(" \n res = %d \n " , res);
+	
+	 
+	 
+	 AFD D = create_AFD();	 
+	 D.pointeur_f_transi = f_transi;
+	 int essai = (*D.pointeur_f_transi)(0,'a',D);
+    
+    printf("\n  essai = %d", essai); 
+	
+	AFN MOV = mot_vide();
+	AFN ENSV = empty_langage();
+	AFN UNCHAR = one_char('c');
+	//printf("Affichage de l'automate  ENSV reconnaisant le langage vide");
+	//printf("****************************************************\n");
+	aff_auto(MOV);
+	
+	//printf("Affichage de l'automate  UNCHAR reconnaisant un caractère");
+	//printf("****************************************************\n");
+	//aff_auto(UNCHAR);
+	
+	//concat(ENSV,UNCHAR);
+	AFN U = concat(UNCHAR,MOV);
+	
+	printf(" \n Affichage de l'automate Qui concatène UNCHAR et MOV ");
+	printf("****************************************************\n");
+	aff_auto(U);
+	
 	return 0;
 }
