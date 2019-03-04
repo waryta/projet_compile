@@ -17,7 +17,7 @@ typedef struct transition transition;
 
 struct AFN
 {
-	int * Q;//ensemble des etats
+	int * Q;//ensemble des etats oo
 	char * P;//alphabet
 	int s;//etat initial
 	int * F;//l'ensemble des états accepteurs
