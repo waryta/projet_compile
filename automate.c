@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <time.h>
 #include <fcntl.h>
+#include <fcntl.h>
 #include "automate.h"
 
 
@@ -654,39 +655,40 @@ printf("le check est %d \n",check);
 AFN determinisation(AFN A)
 {
 	printf("determinisation \n");
-	AFN Det;
-	Det.taille[0]=A.taille[0];
-	Det.taille[1]=A.taille[1];
-	Det.taille[2]=A.taille[2];
-	Det.taille[3]=A.taille[3];
-	//on initialise pour faire des realloc en cas de besoin
-	Det.Q=calloc(Det.taille[0],sizeof(int));
-	Det.P=A.P;
-	Det.F=calloc(Det.taille[2],sizeof(int));
-	Det.tab_transi=calloc(Det.taille[3],sizeof(transition));
-	//gestion de l'etat initial
-	Det.s=A.s;
-	//gestion des transition
-	int i=0,id_act=0,I=0,nb_t=0,p=0;
-	//int tab_new[1][2];
+
+	int i=0,j=0,k=0;
+	int cpt_t=0;
+	int taille=1;
+	int **tab_des_etats=malloc(taille*sizeof(int*));
+	tab_des_etats[0]=malloc(1*sizeof(int);
+	tab_des_etats[0]=0;
 	
 	
-	/*int * tb_new=calloc(2*A.taille[0],sizeof(int));
-	for(i=0;i<Det.tab_transi;i++)
+	for(j=O;j<A.taille[0];j++)
 	{
-		for(I=0;I<Det.taille[3];I++)
-		{
-			if((A.tab_transi.etat_in==A.Q[i]) && (A.tab_transi[I].cons=='A'))
+			for(i=O;i<A.taille[3];i++)
 			{
-				nb_t+=1;
+				for(k=O;k<A.taille[1];k++)
+					{
+						if((A.tab_transi[i].etat_in==A.Q[j]) && (A.tab_transi[i].cons==A.P[k]))
+						{
+							cpt+=1;
+							printf("par état %d en consommant %c on arrive en %d _n",j,A.P[k],A.tab_transi[i].etat_fin);
+							taille+=1;
+							tab_des_etats=realloc(taille,sizeof(int*));
+
+						}
+						if((A.tab_transi[i].etat_in==A.Q[j]) && (A.tab_transi[i].cons==A.P[k]))
+						{
+							tab_des_etats[i]=malloc(cpt*sizeof(int));
+							tab_des_etats[i][=malloc(cpt*sizeof(int));
+							
+						}
+					}
 			}
-		}
-		tab_new
-	}*/
-	Det.tab_transi=A.tab_transi;
-	//gestion des etats
-	Det.Q=A.Q;
-	Det.F=A.F;
+	}
+					
+	}
 	return Det;
 }
 
@@ -782,16 +784,23 @@ int in_AFD(AFD D, char  * word,int t)
 	  etat = (*D.pointeur_f_transi)(s,word[i],D);
 	  s = etat ;	
 	}
+	int verite=0;
 	for(i=0;i<D.taille[2];i++)
 	{
 		if(s==D.FD[i])
 		{
-			printf("mot accepté \n");
+			verite=1;
 		}
-		else
+	}
+	
+	
+	if(verite==0)
 		{
 			printf("oulaaaaaaa mot refusé car l'etat %d n'est pas accepteur \n",s);
 		}
+	else
+	{
+		printf("mot accepté \n");
 	}
 	return s;
 	
@@ -873,14 +882,14 @@ int main(int argc,char** argv)
 	//aff_auto(afn1);
 	//aff_auto(afn2);
 	AFN k=Kleene(afn1);
-	aff_auto(k);
+	//aff_auto(k);
 	//AFN d=determinisation(afn1);
 	//aff_auto(d);
 	
 	
 	
 	 AFD G = create_AFD();
-	 char *mot ="aabaa";
+	 char *mot ="oula";
 	 int res = in_AFD( G,mot,strlen(mot));
 	 printf(" \n res = %d \n " , res);
 	
@@ -897,7 +906,7 @@ int main(int argc,char** argv)
 	AFN UNCHAR = one_char('c');
 	//printf("Affichage de l'automate  ENSV reconnaisant le langage vide");
 	//printf("****************************************************\n");
-	aff_auto(MOV);
+	//aff_auto(MOV);
 	
 	//printf("Affichage de l'automate  UNCHAR reconnaisant un caractère");
 	//printf("****************************************************\n");
@@ -908,7 +917,7 @@ int main(int argc,char** argv)
 	
 	printf(" \n Affichage de l'automate Qui concatène UNCHAR et MOV ");
 	printf("****************************************************\n");
-	aff_auto(U);
+	//aff_auto(U);
 	
 	return 0;
 }
