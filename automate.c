@@ -12,42 +12,54 @@
 void aff_auto(AFN A)
 {
 	int i=0,j=0,k=0,t;
+	printf("\n affichage des états \n");
 	for(i=0;i<A.taille[0];i++)
 	{
-		printf("l'état n° %d est: %d \n",i,A.Q[i]);
+		printf(" \t l'état n° %d est: %d \n",i,A.Q[i]);
 	}
+	printf("\n affichage de l'aphabet \n");
 	for(j=0;i<A.taille[1];j++)
 	{
-		printf("le caractère %d de l'alphabet est: %d \n",j,A.P[j]);
+		printf("\t le caractère %d de l'alphabet est: %d \n",j,A.P[j]);
 	}
-	printf("l'état initial est: %d \n",A.s);
+	printf("\n affichage de l'état initial \n");
+	printf("\t l'état initial est: %d \n",A.s);
+
+	printf("\n affichage des états accepteurs \n");
     for(k=0;k<A.taille[2];k++)
 	{
-		printf("l'etat accepteur  n° %d est: %d \n",k,A.F[k]);
+		printf("\t l'etat accepteur  n° %d est: %d \n",k,A.F[k]);
 	}
+	printf("\n affichages des transitions \n");
 	for(t=0;t<A.taille[3];t++)
 	{
-		printf("la transistion n° %d est :(%d, %c, %d) \n",t,A.tab_transi[t].etat_in,A.tab_transi[t].cons,A.tab_transi[t].etat_fin);
+		printf("\t la transition n° %d est :(%d, %c, %d) \n",t,A.tab_transi[t].etat_in,A.tab_transi[t].cons,A.tab_transi[t].etat_fin);
 	}
+	printf("\n");
+	printf("************fin de l'automate **************************************\n");
+
+	printf("\n");
+	
+
 }
 //automate reconnaissnat le language vide
 AFN empty_langage()
 {
+	printf("*************automate reconnaissnat le language vide ***************\n ");
 	AFN A;
 	A.taille[0]=1;//L'Automate a un seul etat
 	A.taille[1]=0;
 	A.taille[2]=0;
 	A.taille[3]=0;
-	printf("automate reconnaissnat le language vide \n");
 	A.Q=calloc(1,sizeof(int));
-	A.Q[0]=2;
+	A.Q[0]=0;
 	A.P=NULL;
 	A.s=A.Q[0];
 	A.F=NULL;
 	A.tab_transi=NULL;
-	
 
 	return A ;
+	
 	
 }
 
@@ -652,45 +664,45 @@ printf("le check est %d \n",check);
 	return Kleene_A;
 }
 
-AFN determinisation(AFN A)
-{
-	printf("determinisation \n");
+//~ AFN determinisation(AFN A)
+//~ {
+	//~ printf("determinisation \n");
 
-	int i=0,j=0,k=0;
-	int cpt_t=0;
-	int taille=1;
-	int **tab_des_etats=malloc(taille*sizeof(int*));
-	tab_des_etats[0]=malloc(1*sizeof(int);
-	tab_des_etats[0]=0;
+	//~ int i=0,j=0,k=0;
+	//~ int cpt=0,t=0;
+	//~ int taille=1;
+	//~ int **tab_des_etats=malloc(taille*sizeof(int*));
+	//~ tab_des_etats[0]=malloc(1*sizeof(int));
+	//~ tab_des_etats[0]=0;
 	
 	
-	for(j=O;j<A.taille[0];j++)
-	{
-			for(i=O;i<A.taille[3];i++)
-			{
-				for(k=O;k<A.taille[1];k++)
-					{
-						if((A.tab_transi[i].etat_in==A.Q[j]) && (A.tab_transi[i].cons==A.P[k]))
-						{
-							cpt+=1;
-							printf("par état %d en consommant %c on arrive en %d _n",j,A.P[k],A.tab_transi[i].etat_fin);
-							taille+=1;
-							tab_des_etats=realloc(taille,sizeof(int*));
+	//~ for(j=0;j<A.taille[0];j++)
+	//~ {
+			//~ for(i=0;i<A.taille[3];i++)
+			//~ {
+				//~ for(k=0;k<A.taille[1];k++)
+					//~ {
+						//~ if((A.tab_transi[i].etat_in==A.Q[j]) && (A.tab_transi[i].cons==A.P[k]))
+						//~ {
+							//~ cpt+=1;
+							//~ printf("par état %d en consommant %c on arrive en %d _n",j,A.P[k],A.tab_transi[i].etat_fin);
+							//~ taille+=1;
+							//~ tab_des_etats=realloc(taille,sizeof(int*));
 
-						}
-						if((A.tab_transi[i].etat_in==A.Q[j]) && (A.tab_transi[i].cons==A.P[k]))
-						{
-							tab_des_etats[i]=malloc(cpt*sizeof(int));
-							tab_des_etats[i][=malloc(cpt*sizeof(int));
+						//~ }
+						//~ if((A.tab_transi[i].etat_in==A.Q[j]) && (A.tab_transi[i].cons==A.P[k]))
+						//~ {
+							//~ tab_des_etats[i]=malloc(cpt*sizeof(int));
+							//~ tab_des_etats[i][=malloc(cpt*sizeof(int));
 							
-						}
-					}
-			}
-	}
+						//~ }
+					//~ }
+			//~ }
+	//~ }
 					
-	}
-	return Det;
-}
+	//~ }
+	//~ return Det;
+//~ }
 
 
 int f_transi(int etat,char c, AFD D)
@@ -811,7 +823,7 @@ int in_AFD(AFD D, char  * word,int t)
 int main(int argc,char** argv)
 {
 	AFN E = empty_langage();
-	//aff_auto(E);
+	aff_auto(E);
 	AFN M = mot_vide();
 	//aff_auto(M);
 	char a='a';
@@ -915,8 +927,8 @@ int main(int argc,char** argv)
 	//concat(ENSV,UNCHAR);
 	AFN U = concat(UNCHAR,MOV);
 	
-	printf(" \n Affichage de l'automate Qui concatène UNCHAR et MOV ");
-	printf("****************************************************\n");
+	//~ printf(" \n Affichage de l'automate Qui concatène UNCHAR et MOV ");
+	//~ printf("****************************************************\n");
 	//aff_auto(U);
 	
 	return 0;
