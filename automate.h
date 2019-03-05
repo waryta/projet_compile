@@ -17,7 +17,7 @@ typedef struct transition transition;
 
 struct AFN
 {
-	int * Q;//ensemble des etats oo
+	int * Q;//ensemble des etats 
 	char * P;//alphabet
 	int s;//etat initial
 	int * F;//l'ensemble des états accepteurs
@@ -46,12 +46,13 @@ typedef struct AFD AFD;
 
 
 AFN empty_langage();
+AFN mot_vide();
 AFN one_char(char word);
 AFN Kleene(AFN A);
+AFN reunion(AFN afn1,AFN afn2);
+AFN concat(AFN A,AFN B);
 AFN determinisation(AFN A);
 
-AFN concat(AFN A,AFN B);
-AFN mot_vide();
 int f_transi(int etat,char c, AFD D);
 AFD create_AFD();
 int in_AFD(AFD D, char * word, int t);
